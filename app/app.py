@@ -1,1 +1,24 @@
 
+from flask import Flask
+import os
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Hello! This application is running inside Docker."
+
+@app.route("/health")
+def health():
+    return {"status": "healthy"}, 200
+
+@app.route("/info")
+def info():
+    return {
+        "application": "Dockerized Web Application",
+        "environment": os.getenv("APP_ENV", "development")
+    }
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+
